@@ -1,0 +1,1 @@
+export const RESCUE_API_URL = "https://api.rescuegroups.org/v5/";
