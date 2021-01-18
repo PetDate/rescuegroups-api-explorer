@@ -16,7 +16,7 @@ const AppNavbar = () => {
       <StyledNavigationList $align={ALIGN.right}>
         <StyledNavigationItem>
           <Button
-            onClick={() => window.location.href = "https://api.rescuegroups.org/v5/public/docs"}
+            onClick={() => window.open("https://api.rescuegroups.org/v5/public/docs", "_blank")}
           >
             Documentation
           </Button>
