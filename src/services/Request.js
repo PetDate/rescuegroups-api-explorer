@@ -5,7 +5,7 @@ export const getWithToken = (url, params) => {
     headers: {
       "Authorization": process.env.REACT_APP_RESCUE_API_KEY,
     },
-    ...params,
+    params,
   }
 
   return axios.get(url, options);
