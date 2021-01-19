@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <section
       style={{
-        paddingTop: "60px",
+        marginTop: "10vh",
       }}
     >
       <Grid align={ALIGNMENT.center} o>

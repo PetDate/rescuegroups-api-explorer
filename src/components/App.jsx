@@ -5,6 +5,7 @@ import { BaseProvider, LightTheme } from 'baseui';
 import AppNavbar from "./navbar/AppNavbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
+import Footer from "./footer/Footer";
 
 const engine = new Styletron();
 
@@ -12,12 +13,21 @@ const App = () => {
   return (
     <StyletronProvider value={engine}>
       <BaseProvider theme={LightTheme}>
-        <AppNavbar />
-        <BrowserRouter>
-          <Switch>
-            <Route path="/" exact component={Home}/>
-          </Switch>
-        </BrowserRouter>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+          }}
+        >
+          <AppNavbar />
+          <BrowserRouter>
+            <Switch>
+              <Route path="/" exact component={Home} />
+            </Switch>
+          </BrowserRouter>
+          <Footer />
+        </div>
       </BaseProvider>
     </StyletronProvider>
   );
