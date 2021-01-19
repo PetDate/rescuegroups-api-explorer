@@ -4,7 +4,7 @@ import { Button, KIND, SIZE } from "baseui/button";
 import { Delete, Plus } from "baseui/icon";
 import { arrayRemove } from "baseui/dnd-list";
 
-const QueryParameterInput = ({ onChange = () => { }, onDelete = () => { } }) => {
+const KeyValueInput = ({ onChange = () => { }, onDelete = () => { } }) => {
   const [key, setKey] = useState(undefined);
   const [value, setValue] = useState(undefined);
 
@@ -52,7 +52,7 @@ const QueryParameterList = ({ data, setData }) => {
     >
       {
         data.map((val, index) => {
-          return <QueryParameterInput
+          return <KeyValueInput
             key={val["id"]}
             onChange={({ key, value }) => {
               setData(old_params => {
