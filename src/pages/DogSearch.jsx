@@ -5,20 +5,24 @@ import DogSearchForm from "components/form/DogSearchForm";
 import React, { useState } from "react";
 import JSONPretty from "react-json-pretty";
 
-const DogResultItem = ({ }) => {
+const DogResultItem = ({ id, name, distance }) => {
   return (
     <div
       style={{
         display: "flex",
-        justifyContent: "space-evenly"
+        alignItems: "center",
+        justifyContent: "space-between"
       }}
     >
       <img />
       <div>
-        Name
+        {id}
       </div>
       <div>
-        ID
+        {name}
+      </div>
+      <div>
+        {distance}
       </div>
     </div>
   );
@@ -39,7 +43,7 @@ const DogSearch = () => {
           <DogSearchForm onResponse={(res) => setResponse(res)} />
           <Label1>Response Type</Label1>
           <RadioGroup
-            value="JSON"
+            value={responseType}
             onChange={(e) => setResponseType(e.target.value)}
           >
             <Radio value="JSON">
@@ -55,10 +59,16 @@ const DogSearch = () => {
                 <Label1>Result</Label1>
                 {
                   responseType === "JSON" &&
-                  <JSONPretty data={response} style={{ overflowX: "scroll" }}/>
+                  <JSONPretty data={response} style={{ overflowX: "scroll" }} />
                 }
                 {
-                  responseType === "PRETTY"
+                  responseType === "PRETTY" &&
+                  <div>
+                    {response["data"].map((item) => {
+                      let animal_data = { id: item["id"], ...item["attributes"] };
+                      return <DogResultItem {...animal_data} />
+                    })}
+                  </div>
                 }
               </div>
             )
