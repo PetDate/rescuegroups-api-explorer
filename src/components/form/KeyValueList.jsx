@@ -4,9 +4,9 @@ import { Button, KIND, SIZE } from "baseui/button";
 import { Delete, Plus } from "baseui/icon";
 import { arrayRemove } from "baseui/dnd-list";
 
-const KeyValueInput = ({ onChange = () => { }, onDelete = () => { } }) => {
-  const [key, setKey] = useState(undefined);
-  const [value, setValue] = useState(undefined);
+const KeyValueInput = ({ initial_key, initial_value, onChange = () => { }, onDelete = () => { } }) => {
+  const [key, setKey] = useState(initial_key);
+  const [value, setValue] = useState(initial_value);
 
   const onBlur = () => {
     onChange({ key, value });
@@ -25,11 +25,13 @@ const KeyValueInput = ({ onChange = () => { }, onDelete = () => { } }) => {
     >
       <Input
         placeholder="Key"
+        value={key}
         onChange={e => setKey(e.target.value)}
         onBlur={onBlur}
       />
       <Input
         placeholder="Value"
+        value={value}
         onChange={e => setValue(e.target.value)}
         onBlur={onBlur}
       />
@@ -45,7 +47,7 @@ const KeyValueInput = ({ onChange = () => { }, onDelete = () => { } }) => {
   );
 };
 
-const QueryParameterList = ({ data, setData }) => {
+const KeyValueList = ({ data, setData }) => {
   return (
     <div
       style={{ display: "block", }}
@@ -54,6 +56,8 @@ const QueryParameterList = ({ data, setData }) => {
         data.map((val, index) => {
           return <KeyValueInput
             key={val["id"]}
+            initial_key={Object.keys(val)[1]}
+            initial_value={val[Object.keys(val)[1]]}
             onChange={({ key, value }) => {
               setData(old_params => {
                 let new_params = [...old_params];
@@ -97,4 +101,4 @@ export const dataToQueryStringList = (data) => {
   }, {});
 };
 
-export default QueryParameterList;
+export default KeyValueList;

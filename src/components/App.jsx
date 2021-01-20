@@ -6,6 +6,7 @@ import AppNavbar from "./navbar/AppNavbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
 import Footer from "./footer/Footer";
+import DogSearch from "pages/DogSearch";
 
 const engine = new Styletron();
 
@@ -24,6 +25,7 @@ const App = () => {
           <BrowserRouter>
             <Switch>
               <Route path="/" exact component={Home} />
+              <Route path="/dogsearch" exact component={DogSearch} />
             </Switch>
           </BrowserRouter>
           <Footer />

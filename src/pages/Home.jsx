@@ -13,15 +13,23 @@ const Home = () => {
         marginTop: "10vh",
       }}
     >
-      <Grid align={ALIGNMENT.center} o>
+      <Grid align={ALIGNMENT.center} >
         <Cell span={[4, 8, 12]}>
           <ApiResponseForm onResponse={setResponse} />
-          {response && <div
-            style={{ display: "block" }}
-          >
-            <Label1>Result:</Label1>
-            <JSONPretty data={response} />
-          </div>}
+          {
+            response &&
+            <div
+              style={{ display: "block" }}
+            >
+              <Label1>Result:</Label1>
+              <JSONPretty 
+                data={response} 
+                style={{
+                  overflowX: "scroll"
+                }}
+              />
+            </div>
+          }
         </Cell>
       </Grid>
     </section>

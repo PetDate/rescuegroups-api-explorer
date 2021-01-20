@@ -37,79 +37,77 @@ const ApiResponseForm = ({ onResponse = () => { } }) => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={onSubmit}
-        style={{
-          width: "100%",
-        }}
+    <form
+      onSubmit={onSubmit}
+      style={{
+        width: "100%",
+      }}
+    >
+      <FormControl
+        label={() => "Endpoint"}
       >
-        <FormControl
-          label={() => "Endpoint"}
+        <div style={{ display: "flex", alignItems: "center", }}>
+          {RESCUE_API_URL}
+          <Input value={endpoint} onChange={(e) => setEndpoint(e.target.value)} />
+        </div>
+      </FormControl>
+      <FormControl
+      >
+        <RadioGroup
+          value={method}
+          onChange={(e) => setMethod(e.target.value)}
+          align={ALIGN.vertical}
         >
-          <div style={{ display: "flex", alignItems: "center", }}>
-            {RESCUE_API_URL}
-            <Input value={endpoint} onChange={(e) => setEndpoint(e.target.value)} />
-          </div>
-        </FormControl>
-        <FormControl
-        >
-          <RadioGroup
-            value={method}
-            onChange={(e) => setMethod(e.target.value)}
-            align={ALIGN.vertical}
+          <Radio value="GET">GET</Radio>
+          <Radio
+            value="POST"
           >
-            <Radio value="GET">GET</Radio>
-            <Radio
-              value="POST"
-            >
-              POST
+            POST
             </Radio>
-          </RadioGroup>
-        </FormControl>
-        <FormControl
+        </RadioGroup>
+      </FormControl>
+      <FormControl
+      >
+        <Accordion
+          renderPanelContent
         >
-          <Accordion
-            renderPanelContent
-          >
-            <Panel title="Query Parameters">
-              <KeyValueList data={params} setData={setParams} />
+          <Panel title="Query Parameters">
+            <KeyValueList data={params} setData={setParams} />
+          </Panel>
+          {
+            method === "POST" &&
+            <Panel title="JSON Body">
+              <StatefulTextarea
+                initialState={{ value: body }}
+                onChange={(e) => setBody(e.target.value)}
+                onKeyDown={(event) => {
+                  if (event.keyCode === 9) {
+                    event.preventDefault();
+                    var v = event.target.value, s = event.target.selectionStart, e = event.target.selectionEnd;
+                    event.target.value = v.substring(0, s) + "  " + v.substring(e);
+                    event.target.selectionStart = event.target.selectionEnd = s + 2;
+                    return false;
+                  }
+                }}
+                overrides={{
+                  Input: {
+                    style: {
+                      minHeight: "400px",
+                      resize: "vertical",
+                    }
+                  }
+                }}
+              />
             </Panel>
-            {
-              method === "POST" &&
-              <Panel title="JSON Body">
-                <StatefulTextarea
-                  initialState={{ value: body }}
-                  onChange={(e) => setBody(e.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.keyCode === 9) {
-                      event.preventDefault();
-                      var v = event.target.value, s = event.target.selectionStart, e = event.target.selectionEnd;
-                      event.target.value = v.substring(0, s) + "  " + v.substring(e);
-                      event.target.selectionStart = event.target.selectionEnd = s + 2;
-                      return false;
-                    }
-                  }}
-                  overrides={{
-                    Input: {
-                      style: {
-                        minHeight: "400px",
-                        resize: "vertical",
-                      }
-                    }
-                  }}
-                />
-              </Panel>
-            }
-          </Accordion>
-        </FormControl>
-        <FormControl>
-          <Button type={"submit"} disabled={loading}>
-            Submit
+          }
+        </Accordion>
+      </FormControl>
+      <FormControl>
+        <Button type={"submit"} disabled={loading}>
+          Submit
           </Button>
-        </FormControl>
-      </form>
-    </div>
+      </FormControl>
+    </form>
   );
 };
 
