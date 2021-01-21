@@ -123,7 +123,7 @@ const AnimalSearchForm = ({ animal = "dogs", onResponse = () => { } }) => {
                 NextButton: {
                   props: {
                     type: "button",
-                    disabled: loading,
+                    disabled: loading || response.meta.pageReturned === response.meta.pages,
                   }
                 },
                 PrevButton: {
@@ -134,7 +134,7 @@ const AnimalSearchForm = ({ animal = "dogs", onResponse = () => { } }) => {
                 },
                 Select: {
                   props: {
-                    disabled: loading,
+                    disabled: loading
                   }
                 }
               }}
