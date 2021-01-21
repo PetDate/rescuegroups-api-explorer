@@ -4,7 +4,7 @@ import { Button, KIND, SIZE } from "baseui/button";
 import { Delete, Plus } from "baseui/icon";
 import { arrayRemove } from "baseui/dnd-list";
 
-const KeyValueInput = ({ initial_key, initial_value, onChange = () => { }, onDelete = () => { } }) => {
+const KeyValueInput = ({ initial_key = "", initial_value = "", onChange = () => { }, onDelete = () => { } }) => {
   const [key, setKey] = useState(initial_key);
   const [value, setValue] = useState(initial_value);
 

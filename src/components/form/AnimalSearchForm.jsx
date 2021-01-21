@@ -7,6 +7,7 @@ import { RESCUE_API_URL } from "utils/AppConsts";
 import KeyValueList, { dataToQueryStringList } from "components/form/KeyValueList";
 import { Label1 } from "baseui/typography";
 import { requestWithToken } from "services/Request";
+import { Pagination } from "baseui/pagination";
 
 const SearchFilters = ({ setData }) => {
   const [filterRadius, setFilterRadius] = useState({ postalcode: 95122, miles: 100 });
@@ -47,26 +48,31 @@ const SearchFilters = ({ setData }) => {
   );
 }
 
-const DogSearchForm = ({ onResponse = () => { } }) => {
-  const [endpoint, setEndpoint] = useState("public/animals/search/available/dogs");
+const AnimalSearchForm = ({ animal = "dogs", onResponse = () => { } }) => {
+  const [endpoint, setEndpoint] = useState(`public/animals/search/available/${animal}`);
   const [loading, setLoading] = useState(false);
   const [params, setParams] = useState([{ id: "1", limit: "10" }]);
   const [body, setBody] = useState();
-
-  const onSubmit = (e) => {
+  const [response, setResponse] = useState(undefined);
+  
+  const onSubmit = (e = { preventDefault: () => {} }, page) => {
     e.preventDefault();
-    let qs_params = dataToQueryStringList(params);
+    console.log(e);
+    console.log(page);
+    let qs_params = { page, ...dataToQueryStringList(params) };
     setLoading(true);
     requestWithToken("POST", `${RESCUE_API_URL}${endpoint}`, { params: qs_params, data: body })
-    .then(res => {
-      onResponse(res.data);
-    })
-    .catch(error => {
-      onResponse(error.response.data);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
+      .then(res => {
+        setResponse(res.data);
+        onResponse(res.data);
+      })
+      .catch(error => {
+        setResponse(undefined);
+        onResponse(error.response.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -83,7 +89,7 @@ const DogSearchForm = ({ onResponse = () => { } }) => {
       </FormControl>
       <FormControl>
         <Accordion
-          renderPanelContent
+          renderAll
         >
           <Panel title="Query Strings">
             <KeyValueList data={params} setData={setParams} />
@@ -94,12 +100,49 @@ const DogSearchForm = ({ onResponse = () => { } }) => {
         </Accordion>
       </FormControl>
       <FormControl>
-        <Button type={"submit"} disabled={loading}>
-          Submit
-        </Button>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between"
+          }}
+        >
+          <Button type={"submit"} disabled={loading}>
+            Submit
+          </Button>
+          {
+            response &&
+            <Pagination
+              currentPage={response.meta.pageReturned}
+              numPages={response.meta.pages}
+              onPageChange={({ nextPage }) => {
+                onSubmit(undefined, nextPage);
+              }}
+              overrides={{
+                NextButton: {
+                  props: {
+                    type: "button",
+                    disabled: loading,
+                  }
+                },
+                PrevButton: {
+                  props: {
+                    type: "button",
+                    disabled: loading || response.meta.pageReturned === 1,
+                  }
+                },
+                Select: {
+                  props: {
+                    disabled: loading,
+                  }
+                }
+              }}
+            />
+          }
+        </div>
       </FormControl>
     </form>
   );
 };
 
-export default DogSearchForm;
+export default AnimalSearchForm;

@@ -1,32 +1,54 @@
 import { Cell, Grid, ALIGNMENT } from "baseui/layout-grid";
 import { Radio, RadioGroup } from "baseui/radio";
 import { Label1 } from "baseui/typography";
-import DogSearchForm from "components/form/DogSearchForm";
+import AnimalSearchForm from "components/form/AnimalSearchForm";
 import React, { useState } from "react";
 import JSONPretty from "react-json-pretty";
+import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
+import { Avatar } from "baseui/avatar";
 
-const DogResultItem = ({ id, name, distance }) => {
+const DogTable = ({ data }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between"
-      }}
-    >
-      <img />
-      <div>
-        {id}
-      </div>
-      <div>
-        {name}
-      </div>
-      <div>
-        {distance}
-      </div>
-    </div>
+    <TableBuilder data={data} emptyMessage={"No results!"}>
+      <TableBuilderColumn
+        overrides={{
+          TableHeadCell: { style: { width: '1%' } },
+          TableBodyCell: { style: { width: '1%' } },
+        }}
+      >
+        {
+          row => (
+            <Avatar 
+              name="?" 
+              src={row.attributes.pictureThumbnailUrl}
+            />
+          )
+        }
+      </TableBuilderColumn>
+      <TableBuilderColumn header="Rescue ID">
+        {
+          row => (
+            row.attributes.rescueId || "No ID"
+          )
+        }
+      </TableBuilderColumn>
+      <TableBuilderColumn header="Name">
+        {
+          row => (
+            row.attributes.name
+          )
+        }
+      </TableBuilderColumn>
+      <TableBuilderColumn header="Distance (mi)">
+        {
+          row => (
+            row.attributes.distance
+          )
+        }
+      </TableBuilderColumn>
+    </TableBuilder>
   );
-};
+}
 
 const DogSearch = () => {
   const [responseType, setResponseType] = useState("JSON");
@@ -40,7 +62,10 @@ const DogSearch = () => {
     >
       <Grid align={ALIGNMENT.center} >
         <Cell span={[4, 8, 12]}>
-          <DogSearchForm onResponse={(res) => setResponse(res)} />
+          <AnimalSearchForm 
+            animal={"dogs"}
+            onResponse={(res) => setResponse(res)}
+          />
           <Label1>Response Type</Label1>
           <RadioGroup
             value={responseType}
@@ -63,12 +88,7 @@ const DogSearch = () => {
                 }
                 {
                   responseType === "PRETTY" &&
-                  <div>
-                    {response["data"].map((item) => {
-                      let animal_data = { id: item["id"], ...item["attributes"] };
-                      return <DogResultItem {...animal_data} />
-                    })}
-                  </div>
+                  <DogTable data={response["data"]} />
                 }
               </div>
             )

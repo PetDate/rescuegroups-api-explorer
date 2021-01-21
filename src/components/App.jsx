@@ -21,14 +21,14 @@ const App = () => {
             minHeight: "100vh",
           }}
         >
-          <AppNavbar />
           <BrowserRouter>
+            <AppNavbar />
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/dogsearch" exact component={DogSearch} />
             </Switch>
+            <Footer />
           </BrowserRouter>
-          <Footer />
         </div>
       </BaseProvider>
     </StyletronProvider>
