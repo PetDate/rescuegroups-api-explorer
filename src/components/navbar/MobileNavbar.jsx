@@ -4,9 +4,11 @@ import { Button, KIND, SIZE } from 'baseui/button';
 import { Menu } from "baseui/icon";
 import { Drawer } from 'baseui/drawer';
 import { StatefulMenu } from 'baseui/menu';
+import { useHistory } from "react-router-dom";
 
 const MobileNavbar = () => {
   const [open, setOpen] = useState(false);
+  const history = useHistory();
 
   return (
     <HeaderNavigation
@@ -35,7 +37,8 @@ const MobileNavbar = () => {
           >
             <StatefulMenu
               items={[
-                { label: "Documentation", callback: () => { window.open("https://api.rescuegroups.org/v5/public/docs", "_blank") } }
+                { label: "Documentation", callback: () => { window.open("https://api.rescuegroups.org/v5/public/docs", "_blank") } },
+                { label: "Dog Search", callback: () => { history.push("/dogsearch") }  }
               ]}
               onItemSelect={({ item }) => { item.callback(); setOpen(false); }}
               renderAll

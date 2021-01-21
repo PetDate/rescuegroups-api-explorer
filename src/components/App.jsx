@@ -2,7 +2,7 @@ import React from "react";
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { BaseProvider, LightTheme } from 'baseui';
-import AppNavbar from "./navbar/AppNavbar";
+import AppNavbar from "components/navbar/AppNavbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
 import Footer from "./footer/Footer";

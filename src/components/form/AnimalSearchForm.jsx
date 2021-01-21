@@ -104,6 +104,7 @@ const AnimalSearchForm = ({ animal = "dogs", onResponse = () => { } }) => {
           style={{
             display: "flex",
             width: "100%",
+            flexWrap: "wrap",
             justifyContent: "space-between"
           }}
         >
