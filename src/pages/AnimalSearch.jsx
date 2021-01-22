@@ -17,7 +17,8 @@ const AnimalSearch = () => {
           <AnimalSearchForm 
             animals={[
               "dogs",
-              "hamsters"
+              "hamsters",
+              "cats"
             ]}
             onResponse={setResponse}
           />

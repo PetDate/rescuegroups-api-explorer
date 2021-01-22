@@ -9,9 +9,16 @@ import { Label1 } from "baseui/typography";
 import { requestWithToken } from "services/Request";
 import { Pagination } from "baseui/pagination";
 import { Select } from 'baseui/select';
+import {Modal, ModalHeader, ModalBody, ROLE} from 'baseui/modal';
+import { Textarea, SIZE } from "baseui/textarea";
 
 const SearchFilters = ({ setData }) => {
   const [filterRadius, setFilterRadius] = useState({ postalcode: 95122, miles: 100 });
+  const [open, setOpen] = useState(false);
+
+  const close = () => {
+    setOpen(false);
+  }
 
   const mutateKey = (mutateFunc, key, value) => {
     mutateFunc(old_data => {
@@ -45,6 +52,35 @@ const SearchFilters = ({ setData }) => {
           onChange={(e) => mutateKey(setFilterRadius, "miles", e.target.value)}
         />
       </FormControl>
+      <Button
+        type="button"
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        JSON Body
+      </Button>
+      <Modal
+        isOpen={open}
+        onClose={close}
+        role={ROLE.dialog}
+      >
+        <ModalHeader>JSON Body</ModalHeader>
+        <ModalBody>
+          <Textarea 
+            value={JSON.stringify({ data: { filterRadius } }, null, 2)}
+            size={SIZE.compact}
+            overrides={{
+              Input: {
+                style: {
+                  minHeight: "200px",
+                  resize: "vertical"
+                }
+              }
+            }}
+          />
+        </ModalBody>
+      </Modal>
     </React.Fragment>
   );
 }
