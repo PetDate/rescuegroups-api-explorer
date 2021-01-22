@@ -37,6 +37,9 @@ const DesktopNavbar = () => {
           <NavButton to="dogsearch">
             Dog Search
           </NavButton>
+          <NavButton to="animalsearch">
+            Animal Search
+          </NavButton>
         </StyledNavigationItem>
         <StyledNavigationItem>
           <Button

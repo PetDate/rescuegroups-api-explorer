@@ -3,8 +3,20 @@ import { HeaderNavigation, ALIGN, StyledNavigationList, StyledNavigationItem } f
 import { Button, KIND, SIZE } from 'baseui/button';
 import { Menu } from "baseui/icon";
 import { Drawer } from 'baseui/drawer';
-import { StatefulMenu } from 'baseui/menu';
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
+const MobileNavButton = (props) => {
+  return (
+    <Button
+      {...props}
+      $style={{
+        width: "100%"
+      }}
+    >
+      {props.children}
+    </Button>
+  );
+}
 
 const MobileNavbar = () => {
   const [open, setOpen] = useState(false);
@@ -17,7 +29,11 @@ const MobileNavbar = () => {
       }}
     >
       <StyledNavigationList $align={ALIGN.left}>
-        <StyledNavigationItem>Rescue Groups API Explorer</StyledNavigationItem>
+        <StyledNavigationItem>
+          <Link to="/" style={{ textDecoration: "inherit", color: "inherit", }}>
+            Rescue Groups API Explorer
+          </Link>
+        </StyledNavigationItem>
       </StyledNavigationList>
       <StyledNavigationList $align={ALIGN.center} />
       <StyledNavigationList $align={ALIGN.right}>
@@ -29,20 +45,42 @@ const MobileNavbar = () => {
           >
             <Menu size={32} />
           </Button>
-
           <Drawer
             isOpen={open}
             renderAll
             onClose={() => setOpen(false)}
           >
-            <StatefulMenu
-              items={[
-                { label: "Documentation", callback: () => { window.open("https://api.rescuegroups.org/v5/public/docs", "_blank") } },
-                { label: "Dog Search", callback: () => { history.push("/dogsearch") }  }
-              ]}
-              onItemSelect={({ item }) => { item.callback(); setOpen(false); }}
-              renderAll
-            />
+            <div
+              style={{
+                display: "block",
+                padding: "10px"
+              }}
+            >
+              <MobileNavButton
+                onClick={() => {
+                  window.open("https://api.rescuegroups.org/v5/public/docs", "_blank");
+                  setOpen(false);
+                }}
+              >
+                Documentation
+              </MobileNavButton>
+              <MobileNavButton
+                onClick={() => {
+                  history.push("dogsearch")
+                  setOpen(false);
+                }}
+              >
+                Dog Search
+              </MobileNavButton>
+              <MobileNavButton
+                onClick={() => {
+                  history.push("animalsearch")
+                  setOpen(false);
+                }}
+              >
+                Animal Search
+              </MobileNavButton>
+            </div>
           </Drawer>
         </StyledNavigationItem>
       </StyledNavigationList>

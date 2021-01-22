@@ -3,7 +3,7 @@ import AnimalSearchForm from "components/form/AnimalSearchForm";
 import React, { useState } from "react";
 import AnimalSearchResponse from "components/form/AnimalSearchResponse";
 
-const DogSearch = () => {
+const AnimalSearch = () => {
   const [response, setResponse] = useState(undefined);
 
   return (
@@ -14,7 +14,11 @@ const DogSearch = () => {
     >
       <Grid align={ALIGNMENT.center} >
         <Cell span={[4, 8, 12]}>
-          <AnimalSearchForm
+          <AnimalSearchForm 
+            animals={[
+              "dogs",
+              "hamsters"
+            ]}
             onResponse={setResponse}
           />
           <AnimalSearchResponse response={response} />
@@ -24,4 +28,4 @@ const DogSearch = () => {
   );
 };
 
-export default DogSearch;
+export default AnimalSearch;

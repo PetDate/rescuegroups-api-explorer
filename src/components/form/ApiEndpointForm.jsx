@@ -105,7 +105,7 @@ const ApiResponseForm = ({ onResponse = () => { } }) => {
       <FormControl>
         <Button type={"submit"} disabled={loading}>
           Submit
-          </Button>
+        </Button>
       </FormControl>
     </form>
   );

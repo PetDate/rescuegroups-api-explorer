@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
 import Footer from "./footer/Footer";
 import DogSearch from "pages/DogSearch";
+import AnimalSearch from "pages/AnimalSearch";
 
 const engine = new Styletron();
 
@@ -26,6 +27,7 @@ const App = () => {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/dogsearch" exact component={DogSearch} />
+              <Route path="/animalsearch" exact component={AnimalSearch} />
             </Switch>
             <Footer />
           </BrowserRouter>

@@ -8,6 +8,7 @@ import KeyValueList, { dataToQueryStringList } from "components/form/KeyValueLis
 import { Label1 } from "baseui/typography";
 import { requestWithToken } from "services/Request";
 import { Pagination } from "baseui/pagination";
+import { Select } from 'baseui/select';
 
 const SearchFilters = ({ setData }) => {
   const [filterRadius, setFilterRadius] = useState({ postalcode: 95122, miles: 100 });
@@ -48,20 +49,22 @@ const SearchFilters = ({ setData }) => {
   );
 }
 
-const AnimalSearchForm = ({ animal = "dogs", onResponse = () => { } }) => {
-  const [endpoint, setEndpoint] = useState(`public/animals/search/available/${animal}`);
+// baseweb select note
+// options = [{ animal: ... }, { animal: ... }]
+// value = [{ animal: ... }]
+// to access endpoint value[0].animal
+const AnimalSearchForm = ({ animals = ["dogs"], onResponse = () => { } }) => {
+  const [endpoint, setEndpoint] = useState([{ animal: animals[0] }]);
   const [loading, setLoading] = useState(false);
   const [params, setParams] = useState([{ id: "1", limit: "10" }]);
   const [body, setBody] = useState();
   const [response, setResponse] = useState(undefined);
-  
-  const onSubmit = (e = { preventDefault: () => {} }, page) => {
+
+  const onSubmit = (e = { preventDefault: () => { } }, page) => {
     e.preventDefault();
-    console.log(e);
-    console.log(page);
     let qs_params = { page, ...dataToQueryStringList(params) };
     setLoading(true);
-    requestWithToken("POST", `${RESCUE_API_URL}${endpoint}`, { params: qs_params, data: body })
+    requestWithToken("POST", `${RESCUE_API_URL}public/animals/search/available/${endpoint[0].animal}`, { params: qs_params, data: body })
       .then(res => {
         setResponse(res.data);
         onResponse(res.data);
@@ -83,8 +86,23 @@ const AnimalSearchForm = ({ animal = "dogs", onResponse = () => { } }) => {
         label={() => "Endpoint"}
       >
         <div style={{ display: "flex", alignItems: "center", }}>
-          {RESCUE_API_URL}
-          <Input disabled value={endpoint} onChange={(e) => setEndpoint(e.target.value)} />
+          <div
+            style={{
+              width: "50%",
+              overflowWrap: "break-word"
+            }}
+          >
+            {RESCUE_API_URL}
+            {"public/animals/search/available/"}
+          </div>
+          <Select
+            required
+            options={animals.map(item => ({ animal: item }))}
+            labelKey="animal"
+            valueKey="animal"
+            value={endpoint}
+            onChange={({ value }) => setEndpoint(value)}
+          />
         </div>
       </FormControl>
       <FormControl>
