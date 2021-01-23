@@ -1,9 +1,9 @@
-# Rescue Group API Explorer
+# Rescue Groups API Explorer
 Used to explore v5 of Resucue Groups API
 # Instructions
 ## 1. Clone this repository
 ```
-git clone https://github.com/jvogit/rescuegroup-api-explorer/
+git clone https://github.com/jvogit/rescuegroups-api-explorer/
 ```
 
 ## 2. Install dependencies
